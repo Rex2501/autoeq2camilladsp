@@ -1,5 +1,5 @@
-            - 名稱：設定 Node.js 環境
-  使用：actions/setup-node@v4.0.0
+ 名稱：設定 Node.js 環境
+ 使用：actions/setup-node@v4.0.0
   和：
     # 在 npmrc 中設定always-auth。
     always-auth: # 可選，預設為 false
@@ -21,7 +21,43 @@
     快取: # 可選
     # 用於指定依賴檔案的路徑：package-lock.json、yarn.lock等。支援通配符或檔案名稱列表，用於快取多個相依性。
     快取依賴路徑: # 可選
+                - 名稱：上傳建置工件
+  使用：actions/upload-artifact@v3.1.3
+  和：
+    # 神器名稱
+    name: # 可選，預設為artifact
+    # 描述要上傳內容的檔案、目錄或萬用字元模式
+    小路：
+    # 使用提供的路徑找不到檔案時所需的行為。
+可用選項：
+  warn：輸出警告但不要使操作失敗
+  錯誤：操作失敗並顯示錯誤訊息
+  ignore：不輸出任何警告或錯誤，操作不會失敗
+
+    if-no-files-found: # 可選，預設為 warn
+    # 工件將在幾天後過期的持續時間。0 表示使用預設保留。
+最少 1 天。最長 90 天，除非從儲存庫設定頁面進行更改。
+
+    保留天數：# 可選
           
+            - 名稱：設定Go環境
+  使用：actions/setup-go@v4.1.0
+  和：
+    # 要下載（如果需要）和使用的 Go 版本。支援 semver 規範和範圍。請務必將此選項用單引號引起來。
+    go-version: # 可選
+    # go.mod 或 go.work 檔案的路徑。
+    go-version-file: # 可選
+    # 如果您希望操作始終檢查符合版本規範的最新可用版本，請將此選項設為 true
+    檢查最新: # 可選
+    # 用於從 go-versions 擷取 Go 發行版。由於存在預設值，因此使用者通常不會提供該預設值。在 github.com 上執行此操作時，預設值就足夠了。在 GHES 上運行時，如果遇到速率限制，您可以傳遞 github.com 的個人存取權杖。
+    token: # 可選，預設為 ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # 用於指定是否需要快取。如果您想啟用緩存，請設定為 true。
+    快取：# 可選，預設為 true
+    # 用於指定依賴檔案的路徑 - go.sum
+    快取依賴路徑: # 可選
+    # Go 使用的目標架構。範例：x86、x64。預設使用系統架構。
+    架構：# 可選
+                    
 # template source https://github.com/SpectralOps/rust-ci-release-template/
 name: Build
 on:
@@ -116,3 +152,23 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
+            - 名稱：安裝.NET Core SDK
+  使用：actions/setup-dotnet@v3.2.0
+  和：
+    # 要使用的選用 SDK 版本。如果未提供，將在可用時安裝 global.json 版本。例：2.2.104、3.1、3.1.x、3.x、6.0.2xx
+    dotnet-version: # 可選
+    # 可選的建造品質。可能的值有：每日、已簽署、已驗證、預覽、ga。
+    dotnet-quality: # 可選
+    # 可選的 global.json 位置（如果您的 global.json 不在儲存庫的根目錄中）。
+    全域 json 檔: # 可選
+    # 為其設定身份驗證的可選套件來源。將查閱儲存庫根目錄中的任何現有 NuGet.config，並使用 NUGET_AUTH_TOKEN 環境變數作為 ClearTextPassword 提供臨時 NuGet.config
+    來源網址: # 可選
+    # 可選擁有者，用於使用來自 GitHub 套件註冊表組織/使用者而不是目前儲存庫擁有者的套件。僅當 source-url 中也提供了 GPR URL 時才使用
+    所有者：# 可選
+    # 可選的 NuGet.config 位置（如果您的 NuGet.config 不在儲存庫的根目錄中）。
+    設定檔: # 可選
+    # 啟用 NuGet 全域套件資料夾快取的可選輸入
+    快取: # 可選
+    # 用於指定依賴檔案的路徑：packages.lock.json。支援通配符或檔案名稱清單來快取多個相依性。
+    快取依賴路徑: # 可選
+          
